@@ -1,6 +1,7 @@
 import { PrismaClient, Role, UserStatus, ExperienceLevel } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { generateSeedQuestions } from "./seedQuestions";
+import { curatedProblems } from "./seedProblems";
 
 const prisma = new PrismaClient();
 
@@ -79,6 +80,46 @@ async function main() {
   }
 
   console.log(`Successfully seeded ${count} new questions. Total in DB: ${await prisma.question.count()}`);
+
+  // Seed Curated Coding Problems (30+ problems with test cases)
+  console.log(`Seeding ${curatedProblems.length} curated coding problems and test cases...`);
+  let probCount = 0;
+  for (const p of curatedProblems) {
+    const existing = await prisma.codingProblem.findUnique({
+      where: { slug: p.slug },
+    });
+
+    if (!existing) {
+      const problem = await prisma.codingProblem.create({
+        data: {
+          title: p.title,
+          slug: p.slug,
+          topic: p.topic,
+          difficulty: p.difficulty,
+          statement: p.statement,
+          constraints: p.constraints,
+          sampleCases: p.sampleCases,
+          starterCode: p.starterCode,
+        },
+      });
+
+      for (let i = 0; i < p.testCases.length; i++) {
+        const tc = p.testCases[i];
+        await prisma.testCase.create({
+          data: {
+            problemId: problem.id,
+            input: tc.input,
+            expectedOutput: tc.expectedOutput,
+            isHidden: tc.isHidden,
+            orderIndex: i,
+          },
+        });
+      }
+      probCount++;
+    }
+  }
+
+  console.log(`Successfully seeded ${probCount} new coding problems with test cases! Total in DB: ${await prisma.codingProblem.count()}`);
 }
 
 main()

@@ -14,6 +14,7 @@ import sessionsRouter from "./routes/sessions";
 import dashboardRouter from "./routes/dashboard";
 import historyRouter from "./routes/history";
 import reportsRouter from "./routes/reports";
+import codingRouter from "./routes/coding";
 import swaggerRouter from "./docs/swagger";
 import { NotFoundError } from "./lib/errors";
 
@@ -59,6 +60,7 @@ export function createApp() {
   apiV1.use("/dashboard", dashboardRouter);
   apiV1.use("/history", historyRouter);
   apiV1.use("/reports", reportsRouter);
+  apiV1.use("/coding", codingRouter);
 
   app.use("/api/v1", apiV1);
 
