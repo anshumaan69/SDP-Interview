@@ -9,6 +9,7 @@ import healthRouter from "./routes/health";
 import metaRouter from "./routes/meta";
 import authRouter from "./routes/auth";
 import meRouter from "./routes/me";
+import adminRouter from "./routes/admin";
 import swaggerRouter from "./docs/swagger";
 import { NotFoundError } from "./lib/errors";
 
@@ -49,6 +50,7 @@ export function createApp() {
   apiV1.use(metaRouter);
   apiV1.use("/auth", authRouter);
   apiV1.use(meRouter);
+  apiV1.use("/admin", adminRouter);
 
   app.use("/api/v1", apiV1);
 

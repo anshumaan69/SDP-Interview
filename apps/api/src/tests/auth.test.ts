@@ -10,16 +10,26 @@ describe("Phase 1: Auth & Profile API", () => {
   let refreshTokenCookie: string;
 
   beforeAll(async () => {
-    // Clean test data
+    // Clean test data and redis keys
     await prisma.user.deleteMany({
       where: { email: { in: [testEmail, "badpass@example.com", "reset@example.com"] } },
     });
+    await redis.del(
+      `failed_login:badpass@example.com`,
+      `lockout:badpass@example.com`,
+      `otp:${testEmail}`
+    );
   });
 
   afterAll(async () => {
     await prisma.user.deleteMany({
       where: { email: { in: [testEmail, "badpass@example.com", "reset@example.com"] } },
     });
+    await redis.del(
+      `failed_login:badpass@example.com`,
+      `lockout:badpass@example.com`,
+      `otp:${testEmail}`
+    );
   });
 
   describe("Registration & Validation", () => {
