@@ -16,16 +16,23 @@ const router = Router();
 // Protect all session routes with CANDIDATE or ADMIN auth
 router.use(auth);
 
-// Rate limits: 60/hour/user on AI-backed generation and answer endpoints
-const aiRateLimit = rateLimiter({
+// Rate limits: 60/hour/user and 100 AI calls/day/user (protects LLM quota)
+const aiHourlyRateLimit = rateLimiter({
   windowSeconds: 3600,
   maxRequests: 60,
   keyPrefix: "ai_hourly",
 });
 
+const aiDailyRateLimit = rateLimiter({
+  windowSeconds: 86400,
+  maxRequests: 100,
+  keyPrefix: "ai_daily",
+});
+
 router.post(
   "/",
-  aiRateLimit,
+  aiHourlyRateLimit,
+  aiDailyRateLimit,
   validate(createSessionSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -57,7 +64,8 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
 router.post(
   "/:id/answers",
-  aiRateLimit,
+  aiHourlyRateLimit,
+  aiDailyRateLimit,
   validate(submitAnswerSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {

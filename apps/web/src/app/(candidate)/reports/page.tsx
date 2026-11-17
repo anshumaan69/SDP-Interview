@@ -5,6 +5,7 @@ import { FileText, Download, Plus, Clock, CheckCircle2, AlertCircle } from "luci
 import { apiClient } from "@/lib/api";
 import { ErrorAlert } from "@/components/ui/ErrorAlert";
 import { useToast } from "@/components/ui/Toast";
+import { AiDisclaimer } from "@/components/AiDisclaimer";
 
 interface ReportItem {
   id: string;
@@ -101,6 +102,8 @@ export default function ReportsPage() {
       </div>
 
       <ErrorAlert error={error} />
+
+      <AiDisclaimer />
 
       {/* Generator Card */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">

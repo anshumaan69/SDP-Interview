@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { apiClient } from "@/lib/api";
 import { ErrorAlert } from "@/components/ui/ErrorAlert";
+import { AiDisclaimer } from "@/components/AiDisclaimer";
 
 export default function HistoryDetailPage() {
   const params = useParams();
@@ -236,6 +237,8 @@ export default function HistoryDetailPage() {
           })}
         </div>
       </div>
+
+      <AiDisclaimer />
 
       <div className="flex justify-between items-center pt-2">
         <Link

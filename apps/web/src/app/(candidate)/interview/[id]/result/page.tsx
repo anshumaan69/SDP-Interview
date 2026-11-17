@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { apiClient } from "@/lib/api";
 import { ErrorAlert } from "@/components/ui/ErrorAlert";
+import { AiDisclaimer } from "@/components/AiDisclaimer";
 
 interface ResultData {
   resultStatus: "GENERATING" | "READY";
@@ -303,13 +304,7 @@ export default function InterviewResultPage() {
       </div>
 
       {/* AI Disclaimer Banner */}
-      <div className="p-4 rounded-xl bg-slate-100 border border-slate-200 flex items-start gap-3 text-xs text-slate-500">
-        <ShieldAlert className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
-        <p>
-          AI Disclaimer: Scoring criteria and feedback are evaluated algorithmically using LLM
-          rubrics and heuristics. They are intended for mock preparation and guidance.
-        </p>
-      </div>
+      <AiDisclaimer />
 
       {/* Bottom Actions */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
