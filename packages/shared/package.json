@@ -1,0 +1,19 @@
+{
+  "name": "@sdp/shared",
+  "version": "1.0.0",
+  "description": "Shared Zod schemas, types and enums for AI Interview Preparation Platform",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"Shared package linted\""
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}

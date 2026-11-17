@@ -1,0 +1,302 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CANDIDATE
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+}
+
+enum ExperienceLevel {
+  FRESHER
+  ZERO_TO_ONE @map("0_1_YEARS")
+  ONE_TO_THREE @map("1_3_YEARS")
+}
+
+enum InterviewType {
+  HR
+  TECHNICAL
+  BEHAVIOURAL
+  MIXED
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum SessionStatus {
+  IN_PROGRESS
+  PAUSED
+  COMPLETED
+  ENDED_EARLY
+}
+
+enum EvalStatus {
+  PENDING
+  DONE
+  FAILED
+}
+
+enum InterviewMode {
+  TEXT
+  VOICE
+}
+
+enum ResultStatus {
+  GENERATING
+  READY
+}
+
+enum ReportStatus {
+  QUEUED
+  READY
+  FAILED
+}
+
+model User {
+  id                  String          @id @default(uuid())
+  name                String
+  email               String          @unique
+  passwordHash        String
+  role                Role            @default(CANDIDATE)
+  status              UserStatus      @default(ACTIVE)
+  targetRole          String          @default("Software Engineer")
+  experienceLevel     ExperienceLevel @default(FRESHER)
+  skills              Json            @default("[]")
+  emailVerified       Boolean         @default(false)
+  markedForDeletionAt DateTime?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  passwordResets PasswordReset[]
+  refreshTokens  RefreshToken[]
+  sessions       Session[]
+  codingAttempts CodingAttempt[]
+  reports        Report[]
+  auditLogs      AuditLog[]
+
+  @@index([email])
+  @@index([role, status])
+  @@index([createdAt])
+}
+
+model OtpToken {
+  id         String   @id @default(uuid())
+  email      String
+  tokenHash  String
+  attempts   Int      @default(0)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([email])
+}
+
+model PasswordReset {
+  id         String    @id @default(uuid())
+  userId     String
+  tokenHash  String
+  expiresAt  DateTime
+  usedAt     DateTime?
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model RefreshToken {
+  id         String    @id @default(uuid())
+  userId     String
+  tokenHash  String
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Question {
+  id             String        @id @default(uuid())
+  text           String
+  normalizedText String
+  type           InterviewType
+  role           String
+  difficulty     Difficulty
+  idealAnswer    String?
+  isSeeded       Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([type, role, difficulty])
+  @@index([normalizedText])
+}
+
+model Session {
+  id                String        @id @default(uuid())
+  userId            String
+  role              String
+  type              InterviewType
+  difficulty        Difficulty
+  currentDifficulty Difficulty
+  questionCount     Int           @default(5)
+  currentIndex      Int           @default(0)
+  status            SessionStatus @default(IN_PROGRESS)
+  timerSeconds      Int?
+  mode              InterviewMode @default(TEXT)
+  resultStatus      ResultStatus  @default(GENERATING)
+  overallScore      Float?
+  criteriaScores    Json?
+  strengths         Json?
+  weakAreas         Json?
+  suggestions       Json?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionQuestions SessionQuestion[]
+  answers          Answer[]
+
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+model SessionQuestion {
+  id           String        @id @default(uuid())
+  sessionId    String
+  questionId   String?
+  questionText String
+  type         InterviewType
+  difficulty   Difficulty
+  index        Int
+  createdAt    DateTime      @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  answer  Answer?
+
+  @@index([sessionId, index])
+}
+
+model Answer {
+  id                String     @id @default(uuid())
+  sessionId         String
+  sessionQuestionId String     @unique
+  answerText        String?
+  timeTakenSeconds  Int        @default(0)
+  skipped           Boolean    @default(false)
+  evalStatus        EvalStatus @default(PENDING)
+  relevance         Float?
+  correctness       Float?
+  clarity           Float?
+  completeness      Float?
+  overall           Float?
+  feedback          String?
+  sampleAnswer      String?
+  rubricVersion     String     @default("1.0")
+  promptVersion     String     @default("1.0")
+  idempotencyKey    String?    @unique
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  session         Session         @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionQuestion SessionQuestion @relation(fields: [sessionQuestionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+}
+
+model CodingProblem {
+  id          String     @id @default(uuid())
+  title       String
+  slug        String     @unique
+  topic       String
+  difficulty  Difficulty
+  statement   String
+  constraints String
+  sampleCases Json
+  starterCode Json
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  testCases      TestCase[]
+  codingAttempts CodingAttempt[]
+
+  @@index([topic, difficulty])
+}
+
+model TestCase {
+  id             String   @id @default(uuid())
+  problemId      String
+  input          String
+  expectedOutput String
+  isHidden       Boolean  @default(false)
+  orderIndex     Int      @default(0)
+  createdAt      DateTime @default(now())
+
+  problem CodingProblem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([problemId])
+}
+
+model CodingAttempt {
+  id             String   @id @default(uuid())
+  userId         String
+  problemId      String
+  language       String
+  code           String
+  status         String   @default("QUEUED")
+  passedCount    Int      @default(0)
+  totalCount     Int      @default(0)
+  compileError   String?
+  results        Json?
+  idempotencyKey String?  @unique
+  createdAt      DateTime @default(now())
+
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem CodingProblem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([problemId])
+}
+
+model Report {
+  id          String       @id @default(uuid())
+  userId      String
+  status      ReportStatus @default(QUEUED)
+  fromDate    DateTime?
+  toDate      DateTime?
+  filePath    String?
+  downloadUrl String?
+  expiresAt   DateTime
+  createdAt   DateTime     @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  event     String
+  ip        String?
+  details   Json?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([event, createdAt])
+  @@index([userId])
+}
