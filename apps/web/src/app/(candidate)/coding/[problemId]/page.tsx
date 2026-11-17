@@ -274,7 +274,7 @@ function ProblemWorkspace() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto py-20 px-4 text-center space-y-4">
-        <div className="w-10 h-10 border-3 border-brand-600 border-t-transparent rounded-full animate-spin mx-auto" />
+        <div className="w-10 h-10 border-3 border-emerald-700 border-t-transparent rounded-full animate-spin mx-auto" />
         <p className="text-sm text-gray-500">Loading IDE and problem workspace...</p>
       </div>
     );

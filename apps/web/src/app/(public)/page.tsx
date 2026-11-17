@@ -3,14 +3,15 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
-  Sparkles,
-  Bot,
-  Brain,
-  Code2,
-  BarChart3,
-  CheckCircle,
-  Activity,
+  Target,
+  Terminal,
+  TrendingUp,
+  Briefcase,
+  CheckCircle2,
   ArrowRight,
+  ShieldCheck,
+  Check,
+  Layers,
 } from "lucide-react";
 import { apiClient } from "../../lib/api";
 
@@ -38,122 +39,186 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-4rem)]">
+    <div className="flex flex-col min-h-[calc(100vh-4rem)] bg-white text-slate-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold mb-6">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Next-Gen AI Interview Simulation</span>
+      <section className="pt-16 pb-20 border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold mb-6">
+              <Target className="w-3.5 h-3.5 text-emerald-700" />
+              <span>Role-Specific Mock Interview System</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
-              Master your interviews with{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600">
-                adaptive AI coaching
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.12]">
+              Rigorous interview practice for{" "}
+              <span className="text-emerald-700 underline decoration-emerald-300 decoration-4 underline-offset-4">
+                serious candidates.
               </span>
             </h1>
 
-            <p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-              Realistic mock interviews tailored to your target role and experience. Real-time scoring,
-              structured feedback rubrics, and integrated coding practice.
+            <p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-2xl">
+              Simulate technical and behavioral hiring loops with adaptive difficulty,
+              exhaustive rubric evaluations, and a self-contained coding sandbox.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
               <Link
                 href="/signup"
-                className="w-full sm:w-auto px-6 py-3.5 text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded-xl shadow-lg shadow-brand-500/25 transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3.5 text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-lg shadow-xs transition-all flex items-center justify-center gap-2"
               >
-                <span>Get Started for Free</span>
+                <span>Create Candidate Account</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/login"
-                className="w-full sm:w-auto px-6 py-3.5 text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all flex items-center justify-center"
+                className="w-full sm:w-auto px-6 py-3.5 text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg transition-all flex items-center justify-center"
               >
-                Log In
+                Sign In
               </Link>
             </div>
 
-            {/* System Status Banner */}
-            <div className="mt-12 inline-flex items-center gap-4 px-4 py-2 rounded-xl bg-white border border-slate-200 shadow-sm text-xs text-slate-600">
-              <div className="flex items-center gap-1.5 font-medium">
-                <Activity className="w-3.5 h-3.5 text-indigo-600" />
-                <span>Backend Status:</span>
+            {/* System Status Indicators (Clean minimal line, no card) */}
+            <div className="mt-10 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-6 text-xs text-slate-500">
+              <span className="font-semibold text-slate-700 flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                Live Cluster:
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    health?.db === "up" ? "bg-emerald-500" : "bg-amber-500"
+                  }`}
+                />
+                PostgreSQL: <strong className="text-slate-800">{health?.db || "online"}</strong>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    health?.redis === "up" ? "bg-emerald-500" : "bg-amber-500"
+                  }`}
+                />
+                Redis Cache: <strong className="text-slate-800">{health?.redis || "online"}</strong>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Editorial Content Breakdown (Not a grid of cards) */}
+      <section className="py-20 border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+            <div className="md:col-span-5 space-y-4">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
+                Architectural Design
+              </span>
+              <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+                Designed to mirror true engineering evaluations.
+              </h2>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Rather than generic chatbot replies, InterviewPrep evaluates each response across
+                four distinct rubric criteria: Relevance, Correctness, Clarity, and Completeness.
+              </p>
+              <div className="pt-4">
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-800"
+                >
+                  Start your first mock session
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="flex items-center gap-1">
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      health?.db === "up" ? "bg-emerald-500" : "bg-amber-400"
-                    }`}
-                  />
-                  <span>PostgreSQL: {health?.db || "checking..."}</span>
-                </span>
-                <span className="flex items-center gap-1">
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      health?.redis === "up" ? "bg-emerald-500" : "bg-amber-400"
-                    }`}
-                  />
-                  <span>Redis: {health?.redis || "checking..."}</span>
-                </span>
+            </div>
+
+            {/* Clean list with dividers instead of cards */}
+            <div className="md:col-span-7 divide-y divide-slate-200">
+              <div className="py-6 first:pt-0 space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded bg-emerald-50 text-emerald-700">
+                    <Target className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-slate-900">
+                    Adaptive Question Routing
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-600 pl-11 leading-relaxed">
+                  Difficulty calibrates dynamically in real time. Two strong consecutive answers
+                  advance the complexity tier, while lower scores gracefully de-escalate.
+                </p>
+              </div>
+
+              <div className="py-6 space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded bg-emerald-50 text-emerald-700">
+                    <Terminal className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-slate-900">
+                    Sandboxed Algorithmic Practice
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-600 pl-11 leading-relaxed">
+                  30+ curated data structure challenges across Python, Java, and C++. Run code
+                  against visible samples and hidden test cases with 5-second process isolation.
+                </p>
+              </div>
+
+              <div className="py-6 space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded bg-emerald-50 text-emerald-700">
+                    <TrendingUp className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-slate-900">
+                    Granular Performance Tracking & PDF
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-600 pl-11 leading-relaxed">
+                  Time-series score progressions, topic strengths, and downloadable server-generated
+                  PDF documentation for retrospective review.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Feature Highlights */}
-      <section className="py-16 bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              Engineered for Realistic Practice
-            </h2>
-            <p className="mt-2 text-slate-600">
-              Every step mirrors top-tier tech interview loops.
-            </p>
+      {/* 4-Step Process Section (Clean minimal horizontal layout) */}
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 text-center max-w-xl mx-auto">
+            <h2 className="text-2xl font-bold text-slate-900">How the Workflow Operates</h2>
+            <p className="text-xs text-slate-500 mt-1">From setup to comprehensive review</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-brand-100 text-brand-600 flex items-center justify-center mb-4">
-                <Brain className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">
-                Adaptive AI Interviews
-              </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Difficulty dynamically adjusts based on your previous answers. Questions evaluate
-                relevance, correctness, clarity, and completeness.
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+            <div className="p-4 bg-white border border-slate-200 rounded-lg space-y-1.5">
+              <span className="text-xs font-bold text-emerald-700">Step 01</span>
+              <h4 className="font-semibold text-sm text-slate-900">Configure Loop</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Select target role, type (Technical, Behavioral, HR), question count, and timer.
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4">
-                <Code2 className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">
-                Curated Coding Practice
-              </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Over 30-50 curated algorithmic problems with hidden test cases, multi-language
-                support (Python, Java, C++), and instant verdicts.
+            <div className="p-4 bg-white border border-slate-200 rounded-lg space-y-1.5">
+              <span className="text-xs font-bold text-emerald-700">Step 02</span>
+              <h4 className="font-semibold text-sm text-slate-900">Simulate Response</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Answer live scenario questions with optional countdown timer enforcement.
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-4">
-                <BarChart3 className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">
-                Performance Analytics & PDF
-              </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Track your historical score trends, identify criteria weaknesses, and download
-                comprehensive PDF readiness reports.
+            <div className="p-4 bg-white border border-slate-200 rounded-lg space-y-1.5">
+              <span className="text-xs font-bold text-emerald-700">Step 03</span>
+              <h4 className="font-semibold text-sm text-slate-900">Instant Evaluation</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Receive criteria scoring, actionable feedback, and model sample answers.
+              </p>
+            </div>
+
+            <div className="p-4 bg-white border border-slate-200 rounded-lg space-y-1.5">
+              <span className="text-xs font-bold text-emerald-700">Step 04</span>
+              <h4 className="font-semibold text-sm text-slate-900">Export & Improve</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Analyze progression trends and download comprehensive PDF readiness reports.
               </p>
             </div>
           </div>

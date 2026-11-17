@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowRight, ShieldCheck } from "lucide-react";
+import { Target, ArrowRight } from "lucide-react";
 import { apiClient } from "../../../lib/api";
 import { ErrorAlert } from "../../../components/ui/ErrorAlert";
 import { useToast } from "../../../components/ui/Toast";
@@ -73,14 +73,14 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 py-12">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 py-12 bg-slate-50/50">
+      <div className="max-w-md w-full bg-white rounded-xl border border-slate-200 p-8 shadow-xs">
         <div className="text-center mb-6">
-          <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center mx-auto mb-3">
-            <Sparkles className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-3 border border-emerald-100">
+            <Target className="w-5 h-5" />
           </div>
           <h2 className="text-2xl font-bold text-slate-900">Create your account</h2>
-          <p className="text-sm text-slate-500 mt-1">Start practicing realistic AI interviews today</p>
+          <p className="text-xs text-slate-500 mt-1">Start practicing realistic mock interviews today</p>
         </div>
 
         <ErrorAlert error={error} details={details} className="mb-4" />
@@ -93,7 +93,7 @@ export default function SignupPage() {
               required
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               placeholder="Alex Smith"
             />
           </div>
@@ -105,7 +105,7 @@ export default function SignupPage() {
               required
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               placeholder="alex@example.com"
             />
           </div>
@@ -115,7 +115,7 @@ export default function SignupPage() {
             <select
               value={form.targetRole}
               onChange={(e) => setForm({ ...form, targetRole: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
             >
               <option value="Software Engineer">Software Engineer</option>
               <option value="Frontend Engineer">Frontend Engineer</option>
@@ -132,7 +132,7 @@ export default function SignupPage() {
             <select
               value={form.experienceLevel}
               onChange={(e) => setForm({ ...form, experienceLevel: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
             >
               <option value="FRESHER">Fresher (Student / Graduate)</option>
               <option value="0_1_YEARS">0 - 1 Years</option>
@@ -147,18 +147,18 @@ export default function SignupPage() {
               required
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               placeholder="••••••••"
             />
             {/* Live strength hint */}
             <div className="mt-2 flex gap-3 text-xs text-slate-500">
-              <span className={hasMinLength ? "text-emerald-600 font-medium" : "text-slate-400"}>
+              <span className={hasMinLength ? "text-emerald-700 font-semibold" : "text-slate-400"}>
                 ✓ 8+ chars
               </span>
-              <span className={hasLetter ? "text-emerald-600 font-medium" : "text-slate-400"}>
+              <span className={hasLetter ? "text-emerald-700 font-semibold" : "text-slate-400"}>
                 ✓ Letter
               </span>
-              <span className={hasDigit ? "text-emerald-600 font-medium" : "text-slate-400"}>
+              <span className={hasDigit ? "text-emerald-700 font-semibold" : "text-slate-400"}>
                 ✓ Number
               </span>
             </div>
@@ -170,15 +170,15 @@ export default function SignupPage() {
               id="terms"
               checked={form.acceptTerms}
               onChange={(e) => setForm({ ...form, acceptTerms: e.target.checked })}
-              className="mt-1 rounded text-brand-600 focus:ring-brand-500"
+              className="mt-1 rounded text-emerald-700 focus:ring-emerald-500"
             />
             <label htmlFor="terms" className="text-xs text-slate-600 leading-normal">
               I agree to the{" "}
-              <Link href="/terms" className="text-brand-600 hover:underline">
+              <Link href="/terms" className="text-emerald-700 font-medium hover:underline">
                 Terms of Service
               </Link>{" "}
               and{" "}
-              <Link href="/privacy" className="text-brand-600 hover:underline">
+              <Link href="/privacy" className="text-emerald-700 font-medium hover:underline">
                 Privacy Policy
               </Link>
               .
@@ -188,16 +188,16 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-4 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow-md shadow-brand-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full mt-4 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-lg shadow-xs transition-all flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {loading ? "Creating account..." : "Sign Up"}
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-slate-500">
+        <p className="mt-6 text-center text-xs text-slate-500">
           Already have an account?{" "}
-          <Link href="/login" className="text-brand-600 font-semibold hover:underline">
+          <Link href="/login" className="text-emerald-700 font-semibold hover:underline">
             Log in
           </Link>
         </p>

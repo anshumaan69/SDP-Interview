@@ -9,6 +9,21 @@ A production-grade, full-stack AI-assisted interview preparation and coding prac
 
 ---
 
+## 📚 Complete Engineering Documentation
+
+The platform includes formal software engineering documentation conforming to IEEE/ISO/C4 standards:
+
+- 📋 **[Software Requirements Specification (SRS)](file:///home/pikachu/Desktop/SDP-Interview/docs/SRS.md):** Full functional/non-functional requirements, user personas, and traceability matrix.
+- 🏛️ **[High-Level Design (HLD)](file:///home/pikachu/Desktop/SDP-Interview/docs/HLD.md):** C4 architecture models (Context, Container, Component), subsystem design, and fallback topology.
+- ⚙️ **[Low-Level Design (LLD)](file:///home/pikachu/Desktop/SDP-Interview/docs/LLD.md):** Class diagrams, services, adaptive algorithms, rubric math, and Redis keyspaces.
+- 📊 **[UML & Architecture Diagrams](file:///home/pikachu/Desktop/SDP-Interview/docs/UML_DIAGRAMS.md):** 16 Mermaid diagrams (Use Cases, ERD, Sequence, State Machines, Activity, Deployment).
+- 🗄️ **[Database Architecture & Data Dictionary](file:///home/pikachu/Desktop/SDP-Interview/docs/DATABASE_DESIGN.md):** Complete schema tables, indexes, cascades, and GDPR lifecycle.
+- 🔌 **[REST API Specification](file:///home/pikachu/Desktop/SDP-Interview/docs/API_SPECIFICATION.md):** Detailed endpoint contracts, headers, payloads, and status codes.
+- 🚀 **[DevOps & Deployment Runbook](file:///home/pikachu/Desktop/SDP-Interview/docs/DEPLOYMENT_AND_DEVOPS.md):** Docker Compose, CI/CD pipeline, monitoring, and production incident runbooks.
+- 🧭 **[Documentation Hub & Index](file:///home/pikachu/Desktop/SDP-Interview/docs/README.md):** Central navigation portal.
+
+---
+
 ## 1. Key Features
 
 - **Adaptive Mock Interviews (MVP):** Synchronous first-question generation with fallback to curated question bank (230+ seeded questions across 8 roles and 4 interview types). Difficulty dynamically adapts (increases when consecutive scores $\ge 7.5$, decreases when $\le 4.0$).

@@ -69,13 +69,13 @@ function LoginForm() {
   };
 
   return (
-    <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
+    <div className="max-w-md w-full bg-white rounded-xl border border-slate-200 p-8 shadow-xs">
       <div className="text-center mb-6">
-        <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center mx-auto mb-3">
+        <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-3 border border-emerald-100">
           <Lock className="w-5 h-5" />
         </div>
         <h2 className="text-2xl font-bold text-slate-900">Sign in to your account</h2>
-        <p className="text-sm text-slate-500 mt-1">Enter your details to access your dashboard</p>
+        <p className="text-xs text-slate-500 mt-1">Enter your details to access your dashboard</p>
       </div>
 
       <ErrorAlert error={error} className="mb-4" />
@@ -88,8 +88,8 @@ function LoginForm() {
             required
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
-            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
-            placeholder="candidate@example.com"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            placeholder="candidate@sdp.com"
           />
         </div>
 
@@ -98,7 +98,7 @@ function LoginForm() {
             <label className="block text-xs font-semibold text-slate-700 uppercase">Password</label>
             <Link
               href="/forgot-password"
-              className="text-xs text-brand-600 hover:text-brand-700 hover:underline"
+              className="text-xs text-emerald-700 hover:text-emerald-800 hover:underline font-medium"
             >
               Forgot password?
             </Link>
@@ -108,7 +108,7 @@ function LoginForm() {
             required
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
-            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
             placeholder="••••••••"
           />
         </div>
@@ -116,16 +116,16 @@ function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow-md shadow-brand-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-lg shadow-xs transition-all flex items-center justify-center gap-2 disabled:opacity-50"
         >
           {loading ? "Signing in..." : "Log In"}
           <ArrowRight className="w-4 h-4" />
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-500">
+      <p className="mt-6 text-center text-xs text-slate-500">
         Don't have an account?{" "}
-        <Link href="/signup" className="text-brand-600 font-semibold hover:underline">
+        <Link href="/signup" className="text-emerald-700 font-semibold hover:underline">
           Sign up
         </Link>
       </p>
@@ -135,7 +135,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 bg-slate-50/50">
       <Suspense fallback={<div className="text-slate-400">Loading login...</div>}>
         <LoginForm />
       </Suspense>

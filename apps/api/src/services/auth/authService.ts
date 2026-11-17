@@ -69,7 +69,8 @@ export class AuthService {
   }
 
   async sendVerificationOtp(email: string) {
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    // Mock OTP service: 123456 for time being
+    const otp = "123456";
     const otpHash = await bcrypt.hash(otp, 8);
 
     // 10 minutes TTL in Redis
@@ -91,13 +92,26 @@ export class AuthService {
       html: `<div style="font-family: sans-serif; padding: 20px;">
         <h2>Verify your email</h2>
         <p>Your one-time verification code is:</p>
-        <h1 style="letter-spacing: 5px; color: #4f46e5;">${otp}</h1>
-        <p>This code expires in 10 minutes. Do not share it with anyone.</p>
+        <h1 style="letter-spacing: 5px; color: #16a34a;">${otp}</h1>
+        <p>This code expires in 10 minutes. (Mock code: 123456)</p>
       </div>`,
     });
   }
 
   async verifyOtp(input: VerifyOtpInput) {
+    // Fast path for mock OTP 123456
+    if (input.otp === "123456") {
+      const user = await prisma.user.findUnique({ where: { email: input.email } });
+      if (user) {
+        await redis.del(`otp:${input.email}`);
+        await prisma.user.update({
+          where: { email: input.email },
+          data: { emailVerified: true },
+        });
+        return { verified: true };
+      }
+    }
+
     const redisKey = `otp:${input.email}`;
     const rawData = await redis.get(redisKey);
 
