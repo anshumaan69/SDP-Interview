@@ -11,6 +11,9 @@ import authRouter from "./routes/auth";
 import meRouter from "./routes/me";
 import adminRouter from "./routes/admin";
 import sessionsRouter from "./routes/sessions";
+import dashboardRouter from "./routes/dashboard";
+import historyRouter from "./routes/history";
+import reportsRouter from "./routes/reports";
 import swaggerRouter from "./docs/swagger";
 import { NotFoundError } from "./lib/errors";
 
@@ -53,6 +56,9 @@ export function createApp() {
   apiV1.use(meRouter);
   apiV1.use("/admin", adminRouter);
   apiV1.use("/sessions", sessionsRouter);
+  apiV1.use("/dashboard", dashboardRouter);
+  apiV1.use("/history", historyRouter);
+  apiV1.use("/reports", reportsRouter);
 
   app.use("/api/v1", apiV1);
 
