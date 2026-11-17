@@ -7,6 +7,8 @@ import { requestIdMiddleware } from "./middleware/requestId";
 import { errorHandler } from "./middleware/errorHandler";
 import healthRouter from "./routes/health";
 import metaRouter from "./routes/meta";
+import authRouter from "./routes/auth";
+import meRouter from "./routes/me";
 import swaggerRouter from "./docs/swagger";
 import { NotFoundError } from "./lib/errors";
 
@@ -45,6 +47,8 @@ export function createApp() {
   const apiV1 = express.Router();
   apiV1.use(healthRouter);
   apiV1.use(metaRouter);
+  apiV1.use("/auth", authRouter);
+  apiV1.use(meRouter);
 
   app.use("/api/v1", apiV1);
 
